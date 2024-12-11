@@ -1,10 +1,10 @@
-const express = require('express');
+const express = require('express'); //instalando a bliblioteca express
 const bodyParser = require('body-parser');
-const sequelize = require('./models/database');
-const Book = require('./models/Book');
-const bookRoutes = require('./routes/bookRoutes');
+const sequelize = require('./models/database'); //sequelize para trabalhar com mysql
+const Book = require('./models/Book'); // models/book
+const bookRoutes = require('./routes/bookRoutes'); //instalando routes/bookRoutes
 
-const app = express();
+const app = express(); //construtor do objeto express
 const PORT = 3000;
 
 // Middleware
