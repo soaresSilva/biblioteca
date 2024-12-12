@@ -2,7 +2,6 @@ const express = require("express");
 const Book = require("../models/mysqldb/Book");
 const router = express.Router();
 
-// Rota para adicionar um livro
 router.post("/books", async (req, res) => {
   try {
     // !TODO: Validar os dados antes de criar o livro
