@@ -13,7 +13,10 @@ const PORT = process.env.PORT || 3000;
 
 async function initDatabases() {
   await sequelizeConnect();
-  await syncDatabase(); // !TODO: Verificar ambiente de execução para sincronizar o banco de dados e criar as tabelas via migrations
+  if (process.env.APP_ENV === "development") {
+    console.log("Sincronizando banco de dados no ambiente de desenvolvimento...");
+    await syncDatabase();
+  }
 }
 
 initDatabases();
