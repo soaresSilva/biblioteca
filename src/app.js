@@ -7,6 +7,7 @@ const express = require("express"); //instalando a bliblioteca express
 const bodyParser = require("body-parser");
 const bookRoutes = require("./routes/bookRoutes"); //instalando routes/bookRoutes
 const { sequelizeConnect, syncDatabase } = require("./databases/mysqldb");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express(); //construtor do objeto express
 const PORT = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ if (process.env.APP_ENV === "development") {
 // Middleware
 app.use(bodyParser.json());
 app.use("/api", bookRoutes);
+app.use("/auth", authRoutes);
 
 // Iniciar o servidor
 app.listen(PORT, () => {

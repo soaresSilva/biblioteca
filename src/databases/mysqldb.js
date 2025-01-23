@@ -1,11 +1,11 @@
 const { Sequelize } = require("sequelize");
 const dbConfig = require("../config/mysqldb");
 const Chalk = require("../utils/Chalk");
-
 const Book = require("../models/mysqldb/Book");
+const User = require("../models/mysqldb/User");
 
 const sequelize = new Sequelize(dbConfig);
-
+User.init(sequelize);
 Book.init(sequelize);
 
 const sequelizeConnect = async () => {
