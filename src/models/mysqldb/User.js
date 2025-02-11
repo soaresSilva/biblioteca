@@ -1,21 +1,9 @@
-const { Model, DataTypes } = require("sequelize");
+const { Model } = require("sequelize");
+const UserSchema = require("./schemas/user");
 
 class User extends Model {
   static init(sequelize) {
-    super.init(
-      {
-        username: {
-          type: DataTypes.STRING,
-          allowNull: false,
-          unique: true,
-        },
-        password: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-      },
-      { sequelize }
-    );
+    super.init(UserSchema, { sequelize });
   }
 }
 
