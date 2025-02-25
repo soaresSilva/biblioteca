@@ -7,7 +7,12 @@ class Book extends Model {
   }
 
   static associate(models) {
-    // TODO: Implementar associações
+    this.belongsToMany(models.Book, {
+      through: models.UserBook,
+      foreignKey: "userId",
+      otherKey: "bookId",
+      as: "books",
+    });
   }
 }
 

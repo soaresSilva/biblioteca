@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 router.post("/books", authMiddleware, bookController.createBook);
-router.get("/books", authMiddleware, bookController.getAllBooks);
+router.get("/books", bookController.getAllBooks);
 router.put("/books/:id", authMiddleware, bookController.updateBook);
 router.delete("/books/:id", authMiddleware, bookController.deleteBook);
 

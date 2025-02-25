@@ -1,16 +1,27 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "Book API",
-      "version": "1.0.0",
-      "description": "API para gerenciar livros"
-    },
-    "paths": {
-      "/books": {
-        "post": {
-          "summary": "Cria um novo livro",
-          "requestBody": {
-            "required": true,
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Book API",
+    "version": "1.0.0",
+    "description": "API para gerenciar livros"
+  },
+  "paths": {
+    "/books": {
+      "post": {
+        "summary": "Cria um novo livro",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Livro criado com sucesso",
             "content": {
               "application/json": {
                 "schema": {
@@ -19,62 +30,50 @@
               }
             }
           },
-          "responses": {
-            "201": {
-              "description": "Livro criado com sucesso",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Book"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Erro na requisição",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string",
-                        "example": "Erro ao criar o livro"
-                      }
+          "400": {
+            "description": "Erro na requisição",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Erro ao criar o livro"
                     }
                   }
                 }
               }
             }
           }
-        },
-        "get": {
-          "summary": "Lista todos os livros",
-          "responses": {
-            "200": {
-              "description": "Lista de livros",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Book"
-                    }
+        }
+      },
+      "get": {
+        "summary": "Lista todos os livros",
+        "responses": {
+          "200": {
+            "description": "Lista de livros",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Book"
                   }
                 }
               }
-            },
-            "400": {
-              "description": "Erro na requisição",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string",
-                        "example": "Erro ao listar os livros"
-                      }
+            }
+          },
+          "400": {
+            "description": "Erro na requisição",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Erro ao listar os livros"
                     }
                   }
                 }
@@ -84,34 +83,136 @@
         }
       }
     },
-    "components": {
-      "schemas": {
-        "Book": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "example": 1
-            },
-            "name": {
-              "type": "string",
-              "example": "O Senhor dos Anéis"
-            },
-            "author": {
-              "type": "string",
-              "example": "J.R.R. Tolkien"
-            },
-            "pages": {
-              "type": "integer",
-              "example": 1178
-            },
-            "status": {
-              "type": "string",
-              "example": "Disponível"
+    "/auth/register": {
+      "post": {
+        "summary": "Registra um novo usuário",
+        "description": "Cria um novo usuário no banco de dados.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário Criado com sucesso"
+          },
+          "400": {
+            "description": "Erro na requisição"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Autentica usuário",
+        "description": "Faz login e retorna uma mensagem com sucesso.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "usuario123"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "senha123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login efetuado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Login efetuado com sucesso"
+                    }
+                  }
+                }
+              }
             }
           },
-          "required": ["name", "author", "pages", "status"]
+          "401": {
+            "description": "Credenciais inválidas"
+          },
+          "500": {
+            "description": "Erro no servidor"
+          }
         }
       }
     }
+  },
+  "components": {
+    "schemas": {
+      "Book": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "O Senhor dos Anéis"
+          },
+          "author": {
+            "type": "string",
+            "example": "J.R.R. Tolkien"
+          },
+          "pages": {
+            "type": "integer",
+            "example": 1178
+          },
+          "status": {
+            "type": "string",
+            "example": "Disponível"
+          }
+        },
+        "required": [
+          "name",
+          "author",
+          "pages",
+          "status"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "usuario123"
+          },
+          "password": {
+            "type": "string",
+            "formart": "password",
+            "example": "senha123"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      }
+    }
   }
+}

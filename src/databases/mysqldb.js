@@ -3,10 +3,16 @@ const dbConfig = require("../config/mysqldb");
 const Chalk = require("../utils/Chalk");
 const Book = require("../models/mysqldb/Book");
 const User = require("../models/mysqldb/User");
+const UserBook = require("../models/mysqldb/UserBook");
 
 const sequelize = new Sequelize(dbConfig);
 User.init(sequelize);
 Book.init(sequelize);
+UserBook.init(sequelize);
+
+Book.associate({ User, UserBook });
+User.associate({ Book, UserBook });
+UserBook.associate({ User, Book });
 
 const sequelizeConnect = async () => {
   try {
